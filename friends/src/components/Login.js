@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useState} from 'react'
 
 
@@ -10,14 +11,21 @@ export default function Login() {
     const [formValues, setFormValues] = useState(initialValues);
 
 
-    const onChange = (evt) => {
+    const onChange = (e) => {
         setFormValues({
-            ...formValues, [evt.target.name]: evt.target.value
+            ...formValues, [e.target.name]: e.target.value
         })
     }
 
-    const login = () => {
-
+    const login = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:5002/api/login', formValues)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     return (
