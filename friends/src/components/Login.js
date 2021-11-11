@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, {useState} from 'react'
+import { useHistory } from 'react-router';
 
 
 const initialValues = {
@@ -7,7 +8,8 @@ const initialValues = {
     password: ''
 }
 
-export default function Login() {
+function Login() {
+    const {push} = useHistory();
     const [formValues, setFormValues] = useState(initialValues);
 
 
@@ -21,7 +23,8 @@ export default function Login() {
         e.preventDefault();
         axios.post('http://localhost:5002/api/login', formValues)
             .then(res => {
-                console.log(res);
+                localStorage.setItem('token', res.data.payload)
+                push('/friends');
             })
             .catch(err => {
                 console.log(err);
@@ -52,3 +55,5 @@ export default function Login() {
         </div>
     )
 }
+
+export default Login;
